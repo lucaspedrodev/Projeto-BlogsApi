@@ -7,7 +7,9 @@ const emailValidation = (req, res, next) => {
         return res.status(400).json({ message: 'O campo "email" é obrigatório' });
     }
     if (!emailVerify) {
-        return res.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
+        return res.status(400).json({
+            message: '"email" must be a valid email',
+          });
     }
     next();
 }; 
@@ -21,27 +23,24 @@ const passwordValidation = (req, res, next) => {
     }
     if (password.length < 6) {
         return res.status(400).json({
-            message: 'O "password" deve ter pelo menos 6 caracteres',
+            message: '"password" length must be at least 6 characters long',
           }); 
     }
     next();
 };
 
-const loginValidation = (req, res, next) => {
-    const { email, password } = req.body;
-
-    if (email === '' || password === '') {
-    return res.status(400).json({ message: 'Some required fields are missing' });
-    }
-
-    if (!email && !password) {
-        return res.status(400).json({ message: 'Invalid fields' });
-    }
-    next();
+const displayNameValidation = (req, res, next) => {
+ const { displayName } = req.body;
+ if (displayName.length < 8) {
+  return res.status(400).json({
+    message: '"displayName" length must be at least 8 characters long',
+  });
+ }
+ next();
 };
 
 module.exports = {
-loginValidation,
+displayNameValidation,
 emailValidation,
 passwordValidation,
 

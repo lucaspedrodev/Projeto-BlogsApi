@@ -1,10 +1,15 @@
 const { User } = require('../models');
 
-const login = async (email, password) => {
-    const user = await User.findOne({ where: { email, password } });
-return user;
+const createUser = async (displayName, email, password, image) => {
+    const img = (image === undefined) ? '' : image;
+    try {
+        const newUser = await User.create({ displayName, email, password, image: img });
+    return newUser;
+     } catch (e) {
+    return { type: 'error', message: 'User already registered' };
+  }
 };
 
-module.exports = {
-login,
-};
+    module.exports = {
+        createUser,
+    };
