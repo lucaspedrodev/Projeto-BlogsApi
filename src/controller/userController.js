@@ -12,6 +12,25 @@ const createUser = async (req, res) => {
         const tokens = createToken(userWhitoutPass);
             return res.status(201).json({ token: tokens });    
 };
+
+const getAllUsers = async (_req, res) => {
+        const allUsers = await userService.GetAllUsers();
+return res.status(200).json(allUsers);
+    };
+
+const getById = async (req, res) => {
+    const { id } = req.params;
+    const user = await userService.getById(id);
+    const { password: _, ...data } = user.dataValues;
+    if (!user) {
+ return res.status(404).json({
+        message: 'User does not exist' }); 
+}
+ return res.status(200).json(data);
+};
+
 module.exports = {
     createUser,
+    getAllUsers,
+    getById,
 };
